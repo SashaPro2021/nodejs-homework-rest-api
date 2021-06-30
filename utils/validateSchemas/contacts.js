@@ -1,7 +1,16 @@
 const Joi = require('joi')
-const contactSchema = Joi.object({
-  name: Joi.string().min(2).required(),
-  email: Joi.string().min(2).required(),
-  phone: Joi.string().min(0).required(),
+const contactCreateSchema = Joi.object({
+  name: Joi.string().min(3).required(),
+  email: Joi.string().min(10).max(30).required(),
+  phone: Joi.string().min(2).required(),
 })
-module.exports = contactSchema
+const contactUpdateSchema = Joi.object({
+  name: Joi.string().min(3).required(),
+  email: Joi.string().min(10).max(30).required(),
+  phone: Joi.string().min(2).required(),
+}).min(1)
+
+module.exports = {
+  contactCreateSchema,
+  contactUpdateSchema,
+}

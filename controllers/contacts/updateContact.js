@@ -1,9 +1,9 @@
 const contacts = require('../../model/contacts.json')
-const { contactSchema } = require('../../utils/validateSchemas')
+const { contactUpdateSchema } = require('../../utils/validateSchemas')
 const writeContacts = require('../../writeContacts')
 
 const updateContact = (req, res) => {
-  const { error } = contactSchema.validate(req.body)
+  const { error } = contactUpdateSchema.validate(req.body)
   if (error) {
     res.status(400).json({
       status: 'error',

@@ -1,11 +1,11 @@
 const contacts = require('../../model/contacts.json')
-const { contactSchema } = require('../../utils/validateSchemas')
+const { contactCreateSchema } = require('../../utils/validateSchemas')
 const writeContacts = require('../../writeContacts')
 
 const { v4 } = require('uuid')
 
 const addContact = (req, res) => {
-  const { error } = contactSchema.validate(req.body)
+  const { error } = contactCreateSchema.validate(req.body)
   if (error) {
     res.status(400).json({
       status: 'error',
