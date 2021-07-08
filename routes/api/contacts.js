@@ -5,12 +5,14 @@ const { contacts: ctrl } = require('../../controllers')
 
 router.get('/', ctrl.getAllContacts)
 
-router.get('/:contactId', ctrl.getByIdContact)
+router.get('/:id', ctrl.getByIdContact)
 
-router.post('/', ctrl.addContact)
+router.post('/', express.json(), ctrl.addContact)
 
-router.delete('/:contactId', ctrl.delContact)
+router.delete('/:id', ctrl.delContact)
 
-router.put('/:contactId', express.json(), ctrl.updateContact)
+router.put('/:id', express.json(), ctrl.updateContact)
+
+router.patch('/:id', express.json(), ctrl.updateFavoriteContact)
 
 module.exports = router
