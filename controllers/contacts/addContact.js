@@ -7,8 +7,14 @@ const { contact: service } = require('../../services')
 // const { v4 } = require('uuid')
 
 const addContact = async (req, res, next) => {
+  const { body, user } = req
   try {
-    const result = await service.add(req.body)
+    const newContact = {
+      name: body.name,
+      number: body.number,
+      owner: user.id
+    }
+    const result = await service.add(newContact)
     if (!result) {
       res.status(400).json({
         status: 'error',

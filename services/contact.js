@@ -1,15 +1,27 @@
 const { Contact } = require('../models')
 
-const getAll = () => {
-  return Contact.find({})
+const getAll = (query) => {
+  const { limit = 10, offset = 2, sortBy, sortByDesc, filter } = query
+  const data = Contact.paginate({}, {
+    limit,
+    offset,
+    sort: {
+      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+      ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {})
+    },
+    select: filter ? filter.split('|').join(' ') : '',
+  })
+  // const { docs: contacts, totalDocs: total } = data
+  // return { contacts, total, limit: Number(limit), offset: Number(offset) }
+  return data
 }
 
-const getOne = (id) => {
-  return Contact.findById(id)
+const getOne = (filter) => {
+  return Contact.findOne(filter)
 }
 
-const add = (body) => {
-  return Contact.create(body)
+const add = (newContact) => {
+  return Contact.create(newContact)
 }
 
 const del = (id) => {
@@ -32,3 +44,11 @@ module.exports = {
   update,
   updateFavorite
 }
+/*
+http://localhost:3000/api/contacts/?limit=2&offset=3
+http://localhost:3000/api/contacts/?sortByDesc*name
+http://localhost:3000/api/contacts/?select*favorite=true
+offset = limit * кол-во страниц
+sortBy - сортировка по возрастанию
+sortByDesc - сортировка по убыванию
+*/

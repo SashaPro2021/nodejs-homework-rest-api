@@ -1,5 +1,7 @@
 const contactsSchema = require('./contactsSchema')
+const usersSchema = require('./usersSchema')
 
 module.exports = {
-  contactsSchema
+  contactsSchema,
+  usersSchema
 }

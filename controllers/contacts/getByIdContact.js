@@ -2,8 +2,10 @@ const { contact: service } = require('../../services')
 
 const getByIdContact = async (req, res, next) => {
   const { id } = req.params
+  const { user } = req
   try {
-    const result = await service.getOne(id)
+    const filter = { _id: id, owner: user._id }
+    const result = await service.getOne(filter)
     if (!result) {
       return res.status(404).json({
         status: 'error',
