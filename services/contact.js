@@ -1,8 +1,7 @@
 const { Contact } = require('../models')
 
-const getAll = (query) => {
-  const { limit = 10, offset = 2, sortBy, sortByDesc, filter } = query
-  const data = Contact.paginate({}, {
+const getAll = ({ limit = 5, offset = 2, sortBy, sortByDesc, filter }) => {
+  return Contact.paginate({}, {
     limit,
     offset,
     sort: {
@@ -11,9 +10,8 @@ const getAll = (query) => {
     },
     select: filter ? filter.split('|').join(' ') : '',
   })
-  // const { docs: contacts, totalDocs: total } = data
-  // return { contacts, total, limit: Number(limit), offset: Number(offset) }
-  return data
+  // { docs: contacts, totalDocs: total }
+  // return { limit: Number(limit), offset: Number(offset)}
 }
 
 const getOne = (filter) => {

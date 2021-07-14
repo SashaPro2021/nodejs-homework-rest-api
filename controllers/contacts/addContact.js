@@ -12,7 +12,7 @@ const addContact = async (req, res, next) => {
     const newContact = {
       name: body.name,
       number: body.number,
-      owner: user.id
+      owner: user._id
     }
     const result = await service.add(newContact)
     if (!result) {
