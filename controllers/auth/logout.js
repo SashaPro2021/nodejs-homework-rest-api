@@ -14,5 +14,4 @@ const logout = async (req, res, next) => {
     next(error)
   }
 }
-
 module.exports = logout
