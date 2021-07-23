@@ -6,11 +6,27 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<form action="http://localhost:3000/register" method="POST">
+		<!-- <form action="http://localhost:3000/register" method="POST">
 			<input type="email" name="email" />
 			<input type="password" name="password" />
 			<button type="submit">Register</button>
+		</form> -->
+		<form
+			action="http://localhost:3000/api/files/upload"
+			method="POST"
+			enctype="multipart/form-data"
+		>
+			<div style="width: 200px">
+				<label for="id1">Введите имя файла</label>
+				<input id="id1" name="name" type="text" />
+			</div>
+			<div style="width: 200px">
+				<label for="id2">Файл</label>
+				<input id="id2" name="avatar" type="file" />
+			</div>
+			<button type="submit">Отправить</button>
 		</form>
-		<script></script>
+		<!-- <script src="./controllers/auth/register.js"></script> -->
+		<script src=""></script>
 	</body>
 </html>
