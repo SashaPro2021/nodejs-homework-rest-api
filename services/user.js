@@ -25,11 +25,22 @@ const updateSubscr = (id, subscription) => {
   return User.findByIdAndUpdate(id, { subscription })
 }
 
+const updateAvatar = (id, idCloudAvatar, avatarURL) => {
+  return User.findByIdAndUpdate(id, { idCloudAvatar, avatarURL })
+}
+
+const getAvatar = (id) => {
+  const { idCloudAvatar, avatarURL } = User.findOne(id)
+  return { idCloudAvatar, avatarURL }
+}
+
 module.exports = {
   getOne,
   add,
   getById,
   update,
   updateSubscr,
-  updateToken
+  updateToken,
+  updateAvatar,
+  getAvatar
 }
