@@ -30,8 +30,18 @@ const updateAvatar = (id, idCloudAvatar, avatarURL) => {
 }
 
 const getAvatar = (id) => {
-  const { idCloudAvatar, avatarURL } = User.findOne(id)
-  return { idCloudAvatar, avatarURL }
+  const result = User.findById(id)
+  console.log(result)
+  return result
+}
+
+const verify = ({ token }) => {
+  const tokenData = User.findByField({ verifyToken: token })
+  if (tokenData) {
+    tokenData.updateOne({ verify: true, verifyToken: null })
+    return true
+  }
+  return false
 }
 
 module.exports = {
@@ -42,5 +52,6 @@ module.exports = {
   updateSubscr,
   updateToken,
   updateAvatar,
-  getAvatar
+  getAvatar,
+  verify
 }
