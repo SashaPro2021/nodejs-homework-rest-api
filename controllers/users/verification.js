@@ -1,13 +1,14 @@
 const { user: service } = require('../../services')
 
 const verification = async (req, res, next) => {
+  const { verifyToken } = req.params
   try {
-    const result = await service.verify(req.params)
+    const result = await service.verify({ verifyToken })
     if (!result) {
       res.status(404).json({
         status: 'error',
         code: 404,
-        message: 'Your verification token is not valid. Contact with administaration'
+        message: 'User not found'
       })
       return
     }

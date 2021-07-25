@@ -1,12 +1,9 @@
 const { user: service } = require('../../services')
 const jwt = require('jsonwebtoken')
-const sendMail = require('../../configs/config-email')
-const { nanoid } = require('nanoid')
 require('dotenv').config()
 
 const register = async (req, res, next) => {
-  const { email } = req.body
-  const verifyToken = nanoid()
+  const { email, password } = req.body
   try {
     const user = await service.getOne({ email })
     if (user) {
@@ -16,13 +13,12 @@ const register = async (req, res, next) => {
         message: 'Email in use'
       })
     }
-    const newUser = await service.add(req.body)
+    const newUser = await service.add(password, req.body)
     const { SECRET_KEY } = process.env
     const payload = {
       id: newUser._id,
     }
     const token = jwt.sign(payload, SECRET_KEY)
-    await sendMail(email, verifyToken)
 
     res.status(201).json({
       status: 'success',
