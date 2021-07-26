@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const register = async (req, res, next) => {
-  const { email } = req.body
+  const { email, password } = req.body
   try {
-    const user = await service.getOne(email)
+    const user = await service.getOne({ email })
     if (user) {
       return res.status(409).json({
         status: 'error',
@@ -13,8 +13,7 @@ const register = async (req, res, next) => {
         message: 'Email in use'
       })
     }
-
-    const newUser = await service.add(req.body)
+    const newUser = await service.add({ email, password })
     const { SECRET_KEY } = process.env
     const payload = {
       id: newUser._id,

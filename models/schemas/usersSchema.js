@@ -1,4 +1,4 @@
-// const gravatar = require('gravatar')
+const gravatar = require('gravatar')
 const { Schema } = require('mongoose')
 const bcrypt = require('bcryptjs')
 
@@ -23,13 +23,21 @@ const usersSchema = Schema({
   },
   avatarURL: {
     type: String,
-    // default: function () {
-    //   return gravatar.url(this.email, { s: '250' }, true)
-    // }
+    default: function () {
+      return gravatar.url(this.email, { s: '250' }, true)
+    }
   },
   idCloudAvatar: {
     type: String,
     default: null
+  },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
   }
 })
 

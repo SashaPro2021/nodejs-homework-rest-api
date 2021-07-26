@@ -1,11 +1,15 @@
 const { User } = require('../models')
+const { nanoid } = require('nanoid')
+const sendMail = require('../configs/config-email')
 
 const getOne = (filter) => {
   return User.findOne(filter)
 }
 
-const add = ({ password, ...data }) => {
-  const newUser = new User(data)
+const add = ({ email, password }) => {
+  const verifyToken = nanoid()
+  sendMail({ email, verifyToken })
+  const newUser = new User({ email, verifyToken })
   newUser.setPassword(password)
   return newUser.save()
 }
@@ -30,8 +34,17 @@ const updateAvatar = (id, idCloudAvatar, avatarURL) => {
 }
 
 const getAvatar = (id) => {
-  const { idCloudAvatar, avatarURL } = User.findOne(id)
-  return { idCloudAvatar, avatarURL }
+  const result = User.findById(id)
+  return result
+}
+
+const verify = (verifyToken) => {
+  const tokenData = User.findOne(verifyToken)
+  if (tokenData) {
+    tokenData.updateOne({ verify: true, verifyToken: null })
+    return true
+  }
+  return false
 }
 
 module.exports = {
@@ -42,5 +55,6 @@ module.exports = {
   updateSubscr,
   updateToken,
   updateAvatar,
-  getAvatar
+  getAvatar,
+  verify
 }

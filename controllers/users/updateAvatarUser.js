@@ -6,12 +6,12 @@ const cloudinary = require('cloudinary').v2
 const updateAvatarUser = async (req, res, next) => {
   const { _id } = req.user
   const pathFile = req.file.path
-  const oldAvatar = await service.getAvatar(_id)
-  const { public_id: idCloudAvatar, secure_url: avatarURL } = await uploadCloud(pathFile)
-  const url = await service.updateAvatar(_id, idCloudAvatar, avatarURL)
-
   try {
-    if (!url || !req.user.token) {
+    const oldAvatar = await service.getAvatar(_id)
+    const { public_id: idCloudAvatar, secure_url: avatarURL } = await uploadCloud(pathFile)
+    const result = await service.updateAvatar(_id, idCloudAvatar, avatarURL)
+
+    if (!result || !req.user.token) {
       res.status(401).json({
         status: 'error',
         code: 401,
@@ -30,7 +30,7 @@ const updateAvatarUser = async (req, res, next) => {
       status: 'success',
       code: 200,
       data: {
-        avatarUrl: url
+        avatarUrl: result.avatarURL
       }
     })
   } catch (error) {
