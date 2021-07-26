@@ -13,7 +13,7 @@ const register = async (req, res, next) => {
         message: 'Email in use'
       })
     }
-    const newUser = await service.add(password, req.body)
+    const newUser = await service.add({ email, password })
     const { SECRET_KEY } = process.env
     const payload = {
       id: newUser._id,

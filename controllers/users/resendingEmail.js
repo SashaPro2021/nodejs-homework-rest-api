@@ -1,3 +1,4 @@
+const { emailSchema } = require('../../utils/validateSchemas/users')
 const { user: service } = require('../../services')
 const sendMail = require('../../configs/config-email')
 
@@ -6,18 +7,19 @@ const resendingEmail = async (req, res, next) => {
   const { verifyToken } = req.params
 
   try {
-    const user = await service.getOne({ email })
-    if (!email) {
+    const { error } = emailSchema.validate({ email })
+    if (error) {
       return res.status(400).json({
         status: 'error',
         code: 400,
         message: 'missing required field email'
       })
     }
+    const user = await service.getOne({ email })
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         status: 'error',
-        code: 400,
+        code: 404,
         message: 'Not Found'
       })
     }
@@ -28,7 +30,7 @@ const resendingEmail = async (req, res, next) => {
         message: 'Verification has already been passed'
       })
     }
-    await sendMail(email, verifyToken)
+    await sendMail({ email, verifyToken })
 
     res.status(200).json({
       status: 'success',

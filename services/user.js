@@ -6,12 +6,11 @@ const getOne = (filter) => {
   return User.findOne(filter)
 }
 
-const add = (password, data) => {
+const add = ({ email, password }) => {
   const verifyToken = nanoid()
-  const { email } = data
-  const newUser = new User({ ...data, verifyToken })
+  sendMail({ email, verifyToken })
+  const newUser = new User({ email, verifyToken })
   newUser.setPassword(password)
-  sendMail(email, verifyToken)
   return newUser.save()
 }
 
